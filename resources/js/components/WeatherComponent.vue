@@ -55,7 +55,6 @@ export default {
             
             // Add geocoder result to container.
             geocoder.on('result', (e) => {
-                console.log(e)
                 this.location.name = e.result.place_name
                 this.location.lat = e.result.center[1]
                 this.location.lon = e.result.center[0]
@@ -101,7 +100,6 @@ export default {
             fetch(`/api/weather?lat=${this.location.lat}&lon=${this.location.lon}`)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data),
                     this.currentTemp.actual = Math.round(data.current.temp),
                     this.currentTemp.feelsLike = Math.round(data.current.feels_like),
                     this.currentTemp.summary = data.current.weather[0].main,
@@ -123,9 +121,6 @@ export default {
                     })
 
                 })
-        },
-        fetchPlace() {
-            console.log(this.place)
         },
         toDayOfWeek(timestamp) {
             const newDate = new Date(timestamp*1000)
