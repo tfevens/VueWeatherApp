@@ -1,43 +1,45 @@
 <template>
-    <div class="text-white mb-8">
-            <div class="weather-container font-sans w-128 max-w-lg rounded-lg overflow-hidden bg-gray-900 shadow-lg mt-4">                
-                <div class="current-weather flex items-center justify-between px-6 py-8">
-                    <div class="flex items-center">
-                        <div>
-                            <div class="text-6xl font-semibold">{{currentTemp.actual}}°C</div>
-                            <div>Feel like {{currentTemp.feelsLike}}°C</div>
-                        </div>
-                        <div class="mx-5">
-                            <div class="font-semibold">
-                                {{currentTemp.summary}}
+    <div class="w-128 max-w-lg">
+        <div id="geocoder"></div>
+        <div class="text-white mb-8">
+                <div class="weather-container font-sans rounded-lg overflow-hidden bg-gray-900 shadow-lg mt-4">
+                    <div class="current-weather flex items-center justify-between px-6 py-8">
+                        <div class="flex items-center">
+                            <div>
+                                <div class="text-6xl font-semibold">{{currentTemp.actual}}°C</div>
+                                <div>Feel like {{currentTemp.feelsLike}}°C</div>
                             </div>
-                            <div>{{location.name}}</div>
+                            <div class="mx-5">
+                                <div class="font-semibold">
+                                    {{currentTemp.summary}}
+                                </div>
+                                <div>{{location.name}}</div>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <canvas id="iconCurrent" width="96" height="96"></canvas>
-                    </div>
-                </div><!-- end current-weather -->
-
-                <div class="future-weather text-sm bg-gray-800 px-6 py-8 overflow-hidden">
-                    <div v-for="(day, index) in forecast"
-                        :key="day.dt"
-                        class="flex items-center"
-                        :class="{'mt-8' : index > 0 }"
-                        >
-                        <div class="w-1/6 text-lg text-gray-200">{{toDayOfWeek(day.dt)}}</div>
-                        <div class="w-4/6 px-4 flex items-center">
-                            <div><canvas :id="`icon${index+1}`" :data-icon="getWeatherIcon(day.weather[0].icon)"  width="24" height="24"></canvas></div>
-                            <div class="ml-3">{{day.weather[0].main}}</div>
+                        <div>
+                            <canvas id="iconCurrent" width="96" height="96"></canvas>
                         </div>
-                        <div class="w-1/6 text-right">
-                            <div>{{ Math.round(day.temp.max) }}°C</div>
-                            <div>{{ Math.round(day.temp.min) }}°C</div>
+                    </div><!-- end current-weather -->
+                    <div class="future-weather text-sm bg-gray-800 px-6 py-8 overflow-hidden">
+                        <div v-for="(day, index) in forecast"
+                            :key="day.dt"
+                            class="flex items-center"
+                            :class="{'mt-8' : index > 0 }"
+                            >
+                            <div class="w-1/6 text-lg text-gray-200">{{toDayOfWeek(day.dt)}}</div>
+                            <div class="w-4/6 px-4 flex items-center">
+                                <div><canvas :id="`icon${index+1}`" :data-icon="getWeatherIcon(day.weather[0].icon)"  width="24" height="24"></canvas></div>
+                                <div class="ml-3">{{day.weather[0].main}}</div>
+                            </div>
+                            <div class="w-1/6 text-right">
+                                <div>{{ Math.round(day.temp.max) }}°C</div>
+                                <div>{{ Math.round(day.temp.min) }}°C</div>
+                            </div>
                         </div>
-                    </div>
-                </div><!-- end future-weather -->
-            </div> <!-- end weather-container -->
-        </div>
+                    </div><!-- end future-weather -->
+                </div> <!-- end weather-container -->
+            </div>
+    </div>
 </template>
 
 <script>
@@ -192,3 +194,8 @@ export default {
     }
 }
 </script>
+
+<style>
+#geocoder {z-index: 1}
+.mapboxgl-ctrl-geocoder {min-width: 100%}
+</style>
